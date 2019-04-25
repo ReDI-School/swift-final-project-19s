@@ -8,18 +8,19 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return 81
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SudokuCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SudokuCell", for: indexPath) as! SudokuCell
+        cell.inputTextField.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.width / 3
+        let width = view.frame.width / 9
         return CGSize(width: width, height: width)
     }
 
@@ -28,6 +29,31 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    // MARK: - UITextFieldDelegate
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if string.count > 1 {
+            return false
+        }
+        
+        let isInputAValidNumber = Int(string) != nil && Int(string) != 0
+        
+//        let validCharacters = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+//        let isInputValid = validCharacters.contains(string)
+        let textFieldHasNoCharacters = textField.text?.count == 0
+        let noCharactersAndValidNumber = textFieldHasNoCharacters && isInputAValidNumber
+        if noCharactersAndValidNumber || string.isEmpty {
+            
+            return true
+        } else {
+            return false
+        }
     }
 }
 
