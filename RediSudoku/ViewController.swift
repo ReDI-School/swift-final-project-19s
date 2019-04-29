@@ -9,13 +9,37 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return 81
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SudokuCell", for: indexPath) as! SudokuCell
+        
         cell.inputTextField.delegate = self
+        
+        cell.inputTextField.text = "\(indexPath.row)"
+        var edges: [UIRectEdge] = []
+        if indexPath.row % 9 == 0 {
+            
+            edges.append(.left)
+        }
+        if indexPath.row % 3 == 2 {
+            
+            edges.append(.right)
+        }
+        if (indexPath.row / 9) % 3 == 2 {
+            
+            edges.append(.bottom)
+        }
+        if indexPath.row < 9 {
+
+            edges.append(.top)
+        }
+        
+        cell.applyBorders(edges: edges)
         return cell
     }
     
@@ -52,6 +76,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             return true
         } else {
+            
             return false
         }
     }
