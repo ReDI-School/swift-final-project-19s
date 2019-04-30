@@ -24,8 +24,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
 //        cell.inputTextField.text = String(indexPath.item)
         
-        if cellValues[indexPath.item] != nil {
-//            cell.inputTextField.text = String(cellValues[indexPath.item])
+        if let value = cellValues[indexPath.item] {
+            cell.inputTextField.text = String(value)
         }
         
         
@@ -70,7 +70,38 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             7: 9,
             10: 2,
             13: 4,
-            15: 3
+            15: 3,
+            18: 9,
+            21: 1,
+            25: 8,
+            36: 6,
+            37: 8,
+            38: 1,
+            39: 3,
+            31: 7,
+            35: 6,
+            43: 4,
+            44: 7,
+            45: 5,
+            46: 7,
+            49: 2,
+            50: 4,
+            52: 1,
+            53: 3,
+            59: 3,
+            60: 5,
+            63: 4,
+            64: 3,
+            65: 8,
+            66: 5,
+            68: 2,
+            70: 7,
+            73: 5,
+            74: 7,
+            75: 4,
+            77: 9,
+            78: 6,
+            80: 0
         ]
         
         
