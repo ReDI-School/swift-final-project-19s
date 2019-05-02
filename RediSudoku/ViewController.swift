@@ -10,9 +10,81 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
     
-    var cellValues: [Int: Int] = [:]
+    let initialCellValues: [Int: Int] = [
+        2: 4,
+        3: 2,
+        7: 9,
+        10: 2,
+        13: 4,
+        15: 3,
+        18: 9,
+        21: 1,
+        25: 8,
+        36: 6,
+        37: 8,
+        38: 1,
+        39: 3,
+        31: 7,
+        35: 6,
+        43: 4,
+        44: 7,
+        45: 5,
+        46: 7,
+        49: 2,
+        50: 4,
+        52: 1,
+        53: 3,
+        59: 3,
+        60: 5,
+        63: 4,
+        64: 3,
+        65: 8,
+        66: 5,
+        68: 2,
+        70: 7,
+        73: 5,
+        74: 7,
+        75: 4,
+        77: 9,
+        78: 6,
+        80: 5
+    ]
+    
+    lazy var currentCellValues: [Int: Int] = initialCellValues
+    
+    func isNumber(_ number: Int, validInGroup numbersGroup: [Int]) -> Bool {
+        return !numbersGroup.contains(number)
+    }
     
     
+    func getRow(for index: Int) -> [Int] {
+        let rowNumber = index / 9
+
+        let keyValuePairsInCurrentRow = currentCellValues.filter{ keyValuePair
+            in keyValuePair.key / 9 == rowNumber
+            
+        }
+        return keyValuePairsInCurrentRow.map{
+            $0.value
+        }
+    }
+    
+    func getColumn(for index: Int) -> [Int] {
+        let columnNumber = index % 9
+        
+        let keyValuePairsInCurrentColumn = currentCellValues.filter{ keyValuePair
+            in keyValuePair.key % 9 == columnNumber
+            
+        }
+        return keyValuePairsInCurrentColumn.map{
+            $0.value
+        }
+    }
+    
+    func getSubSquare(for index: Int) -> [Int] {
+        
+        return []
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 81
@@ -21,11 +93,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SudokuCell", for: indexPath) as! SudokuCell
         cell.inputTextField.delegate = self
+        cell.inputTextField.tag = indexPath.row
         
-//        cell.inputTextField.text = String(indexPath.item)
-        
-        if let value = cellValues[indexPath.item] {
+        if let value = initialCellValues[indexPath.item] {
             cell.inputTextField.text = String(value)
+            cell.inputTextField.isEnabled = false
+            cell.inputTextField.font = UIFont.boldSystemFont(ofSize: 22)
         }
         
         
@@ -60,57 +133,34 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
     @IBOutlet weak var collectionView: UICollectionView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        cellValues = [
-            2: 4,
-            3: 2,
-            7: 9,
-            10: 2,
-            13: 4,
-            15: 3,
-            18: 9,
-            21: 1,
-            25: 8,
-            36: 6,
-            37: 8,
-            38: 1,
-            39: 3,
-            31: 7,
-            35: 6,
-            43: 4,
-            44: 7,
-            45: 5,
-            46: 7,
-            49: 2,
-            50: 4,
-            52: 1,
-            53: 3,
-            59: 3,
-            60: 5,
-            63: 4,
-            64: 3,
-            65: 8,
-            66: 5,
-            68: 2,
-            70: 7,
-            73: 5,
-            74: 7,
-            75: 4,
-            77: 9,
-            78: 6,
-            80: 0
-        ]
-        
-        
-        
-    }
     // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.textColor = .black
         textField.text = ""
+        currentCellValues.removeValue(forKey: textField.tag)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let text = textField.text ?? ""
+        let row = getRow(for: textField.tag)
+        let column = getColumn(for: textField.tag)
+        
+        
+        if let textFieldValue = Int(text) {
+            let isNumberInRowValid = isNumber(textFieldValue, validInGroup: row)
+            let isNumberInColumnValid = isNumber(textFieldValue, validInGroup: column)
+            
+            if isNumberInRowValid && isNumberInColumnValid {
+                currentCellValues[textField.tag] = textFieldValue
+                print("Added a new value! \(textFieldValue)")
+            } else {
+                textField.textColor = .red
+            }
+            
+        } else {
+            textField.textColor = .red
+        }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
