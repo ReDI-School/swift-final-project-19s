@@ -57,33 +57,48 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     lazy var currentCellValues: [Int: Int] = initialCellValues
     
+    func highlightCells(atIndexes indexes: [Int], withColor color: UIColor, ifValueIs matchingValue: Int) {
+        
+        for index in indexes {
+            let indexPath = IndexPath(row: index, section: 0)
+            let cell = collectionView.cellForItem(at: indexPath) as? SudokuCell
+            guard currentCellValues[index] == matchingValue else { continue }
+            
+            UIView.animate(withDuration: 0.15, animations: {
+                // Animate changing the color to rediBlue
+                cell?.contentView.backgroundColor = color
+            }) { completed in
+                // When finished, animate it back to white
+                UIView.animate(withDuration: 0.6, animations: {
+                    cell?.contentView.backgroundColor = .white
+                })
+            }
+        }
+    }
+    
     func isNumber(_ number: Int, validInGroup numbersGroup: [Int]) -> Bool {
         return !numbersGroup.contains(number)
     }
     
     
-    func getRow(for index: Int) -> [Int] {
+    func getRow(for index: Int) -> [Int: Int] {
         let rowNumber = index / 9
 
         let keyValuePairsInCurrentRow = currentCellValues.filter{ keyValuePair
             in keyValuePair.key / 9 == rowNumber
-            
         }
-        return keyValuePairsInCurrentRow.map{
-            $0.value
-        }
+        
+        return keyValuePairsInCurrentRow
     }
     
-    func getColumn(for index: Int) -> [Int] {
+    func getColumn(for index: Int) -> [Int: Int] {
         let columnNumber = index % 9
         
         let keyValuePairsInCurrentColumn = currentCellValues.filter{ keyValuePair
             in keyValuePair.key % 9 == columnNumber
-            
         }
-        return keyValuePairsInCurrentColumn.map{
-            $0.value
-        }
+        
+        return keyValuePairsInCurrentColumn
     }
     
     func getSubSquare(for index: Int) -> [Int: Int] {
@@ -144,19 +159,37 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         let text = textField.text ?? ""
-        let row = getRow(for: textField.tag)
-        let column = getColumn(for: textField.tag)
-        
+        let tag = textField.tag
         
         if let textFieldValue = Int(text) {
-            let isNumberInRowValid = isNumber(textFieldValue, validInGroup: row)
-            let isNumberInColumnValid = isNumber(textFieldValue, validInGroup: column)
+            let row = getRow(for: tag)
+            let column = getColumn(for: tag)
+            let subSquare = getSubSquare(for: tag)
             
-            if isNumberInRowValid && isNumberInColumnValid {
+            let isNumberValidInRow = isNumber(textFieldValue, validInGroup: Array(row.values) )
+            let isNumberValidInColumn = isNumber(textFieldValue, validInGroup: Array(column.values) )
+            let isNumberValidInSubSquare = isNumber(textFieldValue, validInGroup: Array(subSquare.values) )
+            
+            if isNumberValidInRow && isNumberValidInColumn && isNumberValidInSubSquare {
                 currentCellValues[textField.tag] = textFieldValue
                 print("Added a new value! \(textFieldValue)")
             } else {
-                textField.textColor = .red
+                textField.textColor = .rediOrange
+            }
+            
+            if !isNumberValidInRow {
+                // Find all cells in row with same value and highlight them
+                highlightCells(atIndexes: Array(row.keys), withColor: .rediOrange, ifValueIs: textFieldValue)
+            }
+            
+            if !isNumberValidInColumn {
+                // Find all cells in row with same value and highlight them
+                highlightCells(atIndexes: Array(column.keys), withColor: .rediOrange, ifValueIs: textFieldValue)
+            }
+            
+            if !isNumberValidInSubSquare {
+                // Find all cells in subSquare with same value and highlight them
+                highlightCells(atIndexes: Array(subSquare.keys), withColor: .rediOrange, ifValueIs: textFieldValue)
             }
             
         } else {
