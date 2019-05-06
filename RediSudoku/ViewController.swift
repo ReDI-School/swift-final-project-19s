@@ -50,6 +50,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         80: 5
     ]
     
+    // For each value in the interval 0 to 8, create a SubsQuare using it's initializer. Have a look at the SubSquare struct for more info.
+    let subSquares = (0...8).map { SubSquare(squareIndex: $0) }
+    
     lazy var currentCellValues: [Int: Int] = initialCellValues
     
     func isNumber(_ number: Int, validInGroup numbersGroup: [Int]) -> Bool {
@@ -81,9 +84,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
-    func getSubSquare(for index: Int) -> [Int] {
-        
-        return []
+    func getSubSquare(for index: Int) -> [Int: Int] {
+        for square in subSquares where square.indexes.contains(index) {
+            let subSquareIndexes = square.indexes
+            return currentCellValues.filter { subSquareIndexes.contains($0.key) }
+        }
+        return [:]
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
