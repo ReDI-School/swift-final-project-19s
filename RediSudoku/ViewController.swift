@@ -3,7 +3,7 @@
 //  RediSudoku
 //
 //  Created by mad-11 on 23.04.19.
-//  Copyright © 2019 RaDI School. All rights reserved.
+//  Copyright © 2019 ReDI School. All rights reserved.
 //
 
 import UIKit
