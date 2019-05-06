@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
     
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     let initialCellValues: [Int: Int] = [
         2: 4,
         3: 2,
@@ -98,6 +100,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SudokuCell", for: indexPath) as! SudokuCell
+        cell.inputTextField.tintColor = .rediBlue
         cell.inputTextField.delegate = self
         cell.inputTextField.tag = indexPath.row
         
@@ -107,8 +110,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             cell.inputTextField.font = UIFont.boldSystemFont(ofSize: 22)
         }
         
-        
-    
         if ((indexPath.item + 1) % 3 == 0) {
             cell.applyBorders(edges: [UIRectEdge.right])
         }
@@ -125,24 +126,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             cell.applyBorders(edges: [UIRectEdge.top])
         }
         
-        
-        
         return cell
-        
-
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width / 9
         return CGSize(width: width, height: width)
     }
-
-    @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.textColor = .black
+        textField.textColor = .rediBlue
         textField.text = ""
         currentCellValues.removeValue(forKey: textField.tag)
     }
@@ -165,7 +160,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
         } else {
-            textField.textColor = .red
+            textField.textColor = .rediOrange
         }
     }
     
@@ -177,8 +172,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         let isInputAValidNumber = Int(string) != nil && Int(string) != 0
         
-//        let validCharacters = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-//        let isInputValid = validCharacters.contains(string)
         let textFieldHasNoCharacters = textField.text?.count == 0
         let noCharactersAndValidNumber = textFieldHasNoCharacters && isInputAValidNumber
         if noCharactersAndValidNumber || string.isEmpty {

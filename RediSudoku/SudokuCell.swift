@@ -12,12 +12,13 @@ class SudokuCell: UICollectionViewCell {
     
     
     @IBOutlet weak var inputTextField: UITextField!
+    private let borderColor = UIColor.rediBlue.cgColor
     
     private var borders = [CALayer]()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentView.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
+        contentView.layer.borderColor = borderColor.copy(alpha: 0.3)
         contentView.layer.borderWidth = 0.5
     }
     
@@ -33,28 +34,28 @@ class SudokuCell: UICollectionViewCell {
             
             let layer = CALayer()
             layer.frame = CGRect(x: 0, y: self.bounds.height - 1, width: self.bounds.width, height: 1)
-            layer.backgroundColor = UIColor.black.cgColor
+            layer.backgroundColor = borderColor
             borders.append(layer)
         }
         if edges.contains(.top) {
             
             let layer = CALayer()
             layer.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: 1)
-            layer.backgroundColor = UIColor.black.cgColor
+            layer.backgroundColor = borderColor
             borders.append(layer)
         }
         if edges.contains(.left) {
             
             let layer = CALayer()
             layer.frame = CGRect(x: 0, y: 0, width: 1, height: self.bounds.height)
-            layer.backgroundColor = UIColor.black.cgColor
+            layer.backgroundColor = borderColor
             borders.append(layer)
         }
         if edges.contains(.right) {
             
             let layer = CALayer()
             layer.frame = CGRect(x: self.bounds.width - 1, y: 0, width: 1, height: self.bounds.width)
-            layer.backgroundColor = UIColor.black.cgColor
+            layer.backgroundColor = borderColor
             borders.append(layer)
         }
         
