@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -60,12 +60,52 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="rzG-Ex-M4N"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CJd-ej-3bg">
+                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congrats!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J27-8O-jjw">
+                                        <rect key="frame" x="0.0" y="272" width="320" height="27.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="redi" translatesAutoresizingMaskIntoConstraints="NO" id="Zbb-Ka-lcA">
+                                        <rect key="frame" x="0.0" y="40" width="320" height="192"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qWy-eo-TgG">
+                                        <rect key="frame" x="0.0" y="319.5" width="320" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <state key="normal" title="Play Again"/>
+                                        <connections>
+                                            <action selector="playAgainButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fsF-99-nRj"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="J27-8O-jjw" firstAttribute="top" secondItem="Zbb-Ka-lcA" secondAttribute="bottom" constant="40" id="3Co-Wg-dvy"/>
+                                    <constraint firstItem="qWy-eo-TgG" firstAttribute="leading" secondItem="CJd-ej-3bg" secondAttribute="leading" id="79c-vK-EoO"/>
+                                    <constraint firstItem="qWy-eo-TgG" firstAttribute="top" secondItem="J27-8O-jjw" secondAttribute="bottom" constant="20" id="IV4-wW-szI"/>
+                                    <constraint firstAttribute="trailing" secondItem="Zbb-Ka-lcA" secondAttribute="trailing" id="NjJ-Bo-dFD"/>
+                                    <constraint firstItem="Zbb-Ka-lcA" firstAttribute="leading" secondItem="CJd-ej-3bg" secondAttribute="leading" id="Sun-57-LSZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="J27-8O-jjw" secondAttribute="trailing" id="dCa-i0-UtG"/>
+                                    <constraint firstAttribute="trailing" secondItem="qWy-eo-TgG" secondAttribute="trailing" id="e4G-f1-QX2"/>
+                                    <constraint firstItem="Zbb-Ka-lcA" firstAttribute="top" secondItem="CJd-ej-3bg" secondAttribute="top" constant="40" id="iVE-qo-3oz"/>
+                                    <constraint firstItem="J27-8O-jjw" firstAttribute="leading" secondItem="CJd-ej-3bg" secondAttribute="leading" id="koC-d0-meG"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="CJd-ej-3bg" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="07L-ek-GDW"/>
                             <constraint firstItem="WFp-7a-uwi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="DSB-S1-OBV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WFp-7a-uwi" secondAttribute="trailing" id="JL6-l7-2kM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="CJd-ej-3bg" secondAttribute="bottom" id="PEa-0Q-myM"/>
                             <constraint firstItem="WFp-7a-uwi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SGT-KB-2c0"/>
+                            <constraint firstItem="CJd-ej-3bg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Vb1-7o-rRa"/>
+                            <constraint firstItem="Zbb-Ka-lcA" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.4" id="Xc4-zQ-i1q"/>
+                            <constraint firstItem="CJd-ej-3bg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eRz-dZ-Nnj"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CJd-ej-3bg" secondAttribute="trailing" id="tUL-Fq-ZUU"/>
                             <constraint firstItem="WFp-7a-uwi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="upB-QM-vGN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WFp-7a-uwi" secondAttribute="bottom" id="yYc-a1-kyM"/>
                         </constraints>
@@ -73,6 +113,9 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="WFp-7a-uwi" id="Enp-7d-6aO"/>
+                        <outlet property="finishedGameContainer" destination="CJd-ej-3bg" id="zZM-6F-qDI"/>
+                        <outlet property="finishedGameLabel" destination="J27-8O-jjw" id="Lei-Eh-s66"/>
+                        <outlet property="playAgainButton" destination="qWy-eo-TgG" id="BCF-N7-KI5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -80,4 +123,7 @@
             <point key="canvasLocation" x="56.799999999999997" y="27.436281859070466"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="redi" width="800" height="600"/>
+    </resources>
 </document>

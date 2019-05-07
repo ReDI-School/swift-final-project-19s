@@ -12,6 +12,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var finishedGameContainer: UIView! {
+        didSet {
+            finishedGameContainer.alpha = 0
+        }
+    }
+    
+    @IBOutlet weak var finishedGameLabel: UILabel! {
+        didSet {
+            finishedGameLabel.textColor = .rediBlue
+        }
+    }
+    
+    @IBOutlet weak var playAgainButton: UIButton! {
+        didSet {
+            playAgainButton.tintColor = .rediOrange
+        }
+    }
     let initialCellValues: [Int: Int] = [
         2: 4,
         3: 2,
@@ -48,8 +65,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         74: 7,
         75: 4,
         77: 9,
-        78: 6,
-        80: 5
+        78: 6
     ]
     
     // For each value in the interval 0 to 8, create a SubsQuare using it's initializer. Have a look at the SubSquare struct for more info.
@@ -109,6 +125,32 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return [:]
     }
     
+    @IBAction func playAgainButtonTapped(_ sender: UIButton) {
+        // Reset values to original ones and reload collection view
+        self.currentCellValues = self.initialCellValues
+        self.collectionView.reloadData()
+        
+        UIView.animate(withDuration: 1) {
+            self.finishedGameContainer.alpha = 0
+            self.collectionView.alpha = 1
+        }
+    }
+    
+    func finishGame() {
+        UIView.animateKeyframes(withDuration: 1, delay: 0, options: .calculationModeCubic, animations: {
+            
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
+                self.collectionView.alpha = 0
+            })
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
+                // Show finished game container
+                self.finishedGameContainer.alpha = 1
+            })
+            
+        }, completion: nil)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 81
     }
@@ -119,7 +161,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.inputTextField.delegate = self
         cell.inputTextField.tag = indexPath.row
         
-        if let value = initialCellValues[indexPath.item] {
+        if let value = currentCellValues[indexPath.item] {
             cell.inputTextField.text = String(value)
             cell.inputTextField.isEnabled = false
             cell.inputTextField.font = UIFont.boldSystemFont(ofSize: 22)
@@ -173,6 +215,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             if isNumberValidInRow && isNumberValidInColumn && isNumberValidInSubSquare {
                 currentCellValues[textField.tag] = textFieldValue
                 print("Added a new value! \(textFieldValue)")
+                // Finish game once all numbers are written
+                if currentCellValues.count == collectionView.numberOfItems(inSection: 0) {
+                    finishGame()
+                }
             } else {
                 textField.textColor = .rediOrange
             }

@@ -15,6 +15,7 @@ class SudokuCell: UICollectionViewCell {
         didSet {
             let toolbar = UIToolbar()
             toolbar.sizeToFit()
+            toolbar.tintColor = .rediOrange
             let spacingLeft = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
             let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
             toolbar.items = [spacingLeft, doneButton]
@@ -35,6 +36,7 @@ class SudokuCell: UICollectionViewCell {
         super.prepareForReuse()
         borders.forEach({$0.removeFromSuperlayer()})
         borders.removeAll()
+        inputTextField.text = nil
     }
     
     @objc func doneButtonTapped() {
