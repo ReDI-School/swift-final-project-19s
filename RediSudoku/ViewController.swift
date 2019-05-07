@@ -161,7 +161,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.inputTextField.delegate = self
         cell.inputTextField.tag = indexPath.row
         
-        if let value = currentCellValues[indexPath.item] {
+        if let value = initialCellValues[indexPath.item] {
             cell.inputTextField.text = String(value)
             cell.inputTextField.isEnabled = false
             cell.inputTextField.font = UIFont.boldSystemFont(ofSize: 22)
