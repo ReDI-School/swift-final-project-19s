@@ -11,7 +11,16 @@ import UIKit
 class SudokuCell: UICollectionViewCell {
     
     
-    @IBOutlet weak var inputTextField: UITextField!
+    @IBOutlet weak var inputTextField: UITextField! {
+        didSet {
+            let toolbar = UIToolbar()
+            toolbar.sizeToFit()
+            let spacingLeft = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+            toolbar.items = [spacingLeft, doneButton]
+            inputTextField.inputAccessoryView = toolbar
+        }
+    }
     private let borderColor = UIColor.rediBlue.cgColor
     
     private var borders = [CALayer]()
@@ -26,6 +35,10 @@ class SudokuCell: UICollectionViewCell {
         super.prepareForReuse()
         borders.forEach({$0.removeFromSuperlayer()})
         borders.removeAll()
+    }
+    
+    @objc func doneButtonTapped() {
+        inputTextField.resignFirstResponder()
     }
     
     func applyBorders(edges: [UIRectEdge]) {
